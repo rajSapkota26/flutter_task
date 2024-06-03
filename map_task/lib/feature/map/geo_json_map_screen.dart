@@ -60,7 +60,7 @@ class _GeoJsonMapScreenState extends ConsumerState<GeoJsonMapScreen> {
 
   Future<void> onMapCreated(MaplibreMapController controller) async {
     FeatureCollection collection = viewModel.collection!;
-   
+
 
    Object geoJson=collection.toJson() as Object;
     // Add GeoJSON source

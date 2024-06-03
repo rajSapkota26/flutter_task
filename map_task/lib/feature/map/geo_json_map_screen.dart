@@ -60,7 +60,7 @@ class _GeoJsonMapScreenState extends ConsumerState<GeoJsonMapScreen> {
 
   Future<void> onMapCreated(MaplibreMapController controller) async {
     FeatureCollection collection = viewModel.collection!;
-   var mapController = controller;
+   
 
    Object geoJson=collection.toJson() as Object;
     // Add GeoJSON source
@@ -74,7 +74,7 @@ class _GeoJsonMapScreenState extends ConsumerState<GeoJsonMapScreen> {
         "geojson-source",
         "circle-layer",
         const CircleLayerProperties(
-            circleColor: "#000000", circleRadius: 24));
+            circleColor: "#0000FF", circleRadius: 14));
     controller.addLayer(
         "geojson-source",
         "symbols-layer",
@@ -93,6 +93,9 @@ class _GeoJsonMapScreenState extends ConsumerState<GeoJsonMapScreen> {
             ),
 
           ));
+      // final feature = collection.features.firstWhere(
+      //         (element) => element.id == id,
+      //     orElse: () => Feature());
     });
   }
 

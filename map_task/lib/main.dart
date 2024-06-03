@@ -15,10 +15,13 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(
           path: '/',
-          builder: (BuildContext context, GoRouterState state) => TodoScreen()),
+          builder: (BuildContext context, GoRouterState state) => const HomePage()),
+      GoRoute(
+          path: '/todo',
+          builder: (BuildContext context, GoRouterState state) => const TodoScreen()),
       GoRoute(
           path: '/map',
-          builder: (BuildContext context, GoRouterState state) => GeoJsonMapScreen()),
+          builder: (BuildContext context, GoRouterState state) => const GeoJsonMapScreen()),
     ],
   );
 
@@ -32,4 +35,32 @@ class MyApp extends StatelessWidget {
       routeInformationProvider: _router.routeInformationProvider,
     );
   }
+
+
+
+
+}
+class HomePage extends StatelessWidget{
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+   return Scaffold(
+     body: Center(
+       child: Column(
+         mainAxisSize: MainAxisSize.min,
+         children: [
+           ElevatedButton(onPressed: (){
+             context.push('/todo');
+           }, child: Text("ToDo")),
+           const SizedBox(height: 24),
+           ElevatedButton(onPressed: (){
+             context.push('/map');
+           }, child: Text("Map")),
+         ],
+       ),
+     ),
+   );
+  }
+
 }

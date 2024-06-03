@@ -31,7 +31,7 @@ class _GeoJsonMapScreenState extends ConsumerState<GeoJsonMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Users')),
+        appBar: AppBar(title: const Text('Map')),
         body: Consumer(builder: (context, ref, child) {
           final state = ref.watch(mapProvider);
           if (state.isLoading) {
@@ -45,7 +45,8 @@ class _GeoJsonMapScreenState extends ConsumerState<GeoJsonMapScreen> {
 
           if (state.collection != null) {
             CameraPosition initialCameraPosition =
-                const CameraPosition(target: LatLng(27.81, 84.07), zoom: 5);
+                const CameraPosition(target: LatLng(0, 0), zoom: 5);
+                // const CameraPosition(target: LatLng(27.81, 84.07), zoom: 5);
 
             return MaplibreMap(
               initialCameraPosition: initialCameraPosition,
@@ -59,24 +60,40 @@ class _GeoJsonMapScreenState extends ConsumerState<GeoJsonMapScreen> {
 
   Future<void> onMapCreated(MaplibreMapController controller) async {
     FeatureCollection collection = viewModel.collection!;
-    controller.addGeoJsonSource(
+   var mapController = controller;
+
+   Object geoJson=collection.toJson() as Object;
+    // Add GeoJSON source
+    controller.addSource(
         "geojson-source",
         GeojsonSourceProperties(
-          data: collection.toJson(),
+          data: geoJson,
           cluster: true,
-        ) as Map<String, dynamic>);
-
-    controller.addSymbolLayer(
+        ));
+    controller.addLayer(
         "geojson-source",
-        "symbol-layer",
+        "circle-layer",
+        const CircleLayerProperties(
+            circleColor: "#000000", circleRadius: 24));
+    controller.addLayer(
+        "geojson-source",
+        "symbols-layer",
         const SymbolLayerProperties(
-            iconSize: 24,
-            iconAllowOverlap: true,
-            iconImage:await addImageFromAsset(
-            controller, "custom-marker", "assets/symbols/custom-marker.png");));
+          iconAllowOverlap: true,
+          iconImage: "assets://icon.jpeg", // Use the icon from assets
+          iconSize: 15.0, // Adjust the icon size as needed
+        ));
 
-    controller.onSymbolTapped.add((symbol) {
-      symbol.id;
+    // Listen for symbol tap events
+    controller.onFeatureTapped.add((id, point, latlng) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Latitude: ${latlng.latitude}, Longitude:  ${latlng.longitude}',
+            ),
+
+          ));
     });
   }
+
 }

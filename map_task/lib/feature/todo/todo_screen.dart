@@ -31,14 +31,8 @@ class _TodoScreenState extends ConsumerState<TodoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Users'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.go('/map');
-              },
-              icon: Icon(Icons.location_on))
-        ],
+        title: const Text('ToDo'),
+
       ),
       body: Consumer(
         builder: (context, ref, child) {
